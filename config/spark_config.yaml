@@ -1,0 +1,23 @@
+# Spark Configuration
+spark:
+  app_name: "NVIDIA Stock Analysis"
+  master: "local[*]"
+
+  # Memory configurations
+  driver_memory: "4g"
+  executor_memory: "4g"
+
+  # Spark SQL configurations
+  sql:
+    shuffle_partitions: 200
+    adaptive_enabled: true
+
+  # Additional configurations
+  config:
+    spark.sql.execution.arrow.pyspark.enabled: false
+    spark.driver.maxResultSize: "2g"
+    spark.serializer: "org.apache.spark.serializer.KryoSerializer"
+    spark.kryoserializer.buffer.max: "512m"
+
+  # Logging
+  log_level: "WARN"

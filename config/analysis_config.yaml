@@ -1,0 +1,54 @@
+# Analysis Configuration
+data:
+  dataset_name: "ibrahimshahrukh/nvidia-daily-stock-prices-20162026-dataset"
+  file_name: "nvidia_stock_data.csv"
+  date_column: "Date"
+  date_format: "yyyy-MM-dd"
+
+analysis:
+  # Technical analysis
+  moving_averages:
+    - 7
+    - 14
+    - 30
+    - 50
+    - 200
+
+  bollinger_bands:
+    window: 20
+    num_std: 2
+
+  rsi:
+    window: 14
+
+  macd:
+    fast_period: 12
+    slow_period: 26
+    signal_period: 9
+
+  # Volatility analysis
+  volatility:
+    windows: [7, 14, 30, 60]
+
+  # Analysis periods
+  periods:
+    - name: "last_year"
+      days: 365
+    - name: "last_6_months"
+      days: 180
+    - name: "last_3_months"
+      days: 90
+    - name: "last_month"
+      days: 30
+
+output:
+  path: "output"
+  formats:
+    - "parquet"
+    - "csv"
+
+visualization:
+  style: "seaborn-v0_8-darkgrid"
+  figure_size: [14, 8]
+  dpi: 100
+  save_format: "png"
