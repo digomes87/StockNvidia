@@ -24,7 +24,7 @@ End-to-end, production-style data analysis pipeline for NVIDIA daily stock price
 
 ```bash
 # Clone the repository
-git clone https://github.com/digomes87/StockNvidia
+git clone <your-repo-url>
 cd StockNivida
 
 # Create and initialize the virtual environment with uv

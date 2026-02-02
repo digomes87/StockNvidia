@@ -24,12 +24,14 @@ class DataProcessor:
         self.config = self._load_config(config_path)
         self.data_config = self.config['data']
 
-    def _load_config(self, config_path: str) -> dict:
+    @staticmethod
+    def _load_config(config_path: str) -> dict:
         """Loads configurations from YAML file"""
         with open(config_path, 'r') as f:
             return yaml.safe_load(f)
 
-    def clean_data(self, df: DataFrame) -> DataFrame:
+    @staticmethod
+    def clean_data(df: DataFrame) -> DataFrame:
         """
         Cleans data removing nulls and duplicates
 
@@ -117,7 +119,8 @@ class DataProcessor:
 
         return df_temporal
 
-    def add_price_features(self, df: DataFrame) -> DataFrame:
+    @staticmethod
+    def add_price_features(df: DataFrame) -> DataFrame:
         """
         Adds price-related features
 
@@ -160,7 +163,8 @@ class DataProcessor:
 
         return df_price
 
-    def add_volume_features(self, df: DataFrame) -> DataFrame:
+    @staticmethod
+    def add_volume_features(df: DataFrame) -> DataFrame:
         """
         Adds volume-related features
 
@@ -174,17 +178,21 @@ class DataProcessor:
 
         window_spec = Window.partitionBy('Symbol').orderBy('Date')
 
+        from pyspark.sql import functions as F
+
         df_volume = df.withColumn(
-            'Previous_Volume', lag('Volume', 1).over(window_spec)
+            "Previous_Volume",
+            F.lag(F.col("Volume"), 1).over(window_spec)
         ).withColumn(
-            'Volume_Change',
-            when(col('Previous_Volume').isNotNull(),
-                 (col('Volume') - col('Previous_Volume')) / col('Previous_Volume') * 100)
-            .otherwise(None)
+            "Volume_Change",
+            F.when(
+                F.col("Previous_Volume").isNotNull(),
+                (F.col("Volume") - F.col("Previous_Volume")) / F.col("Previous_Volume") * 100
+            ).otherwise(F.lit(None))
         )
 
-        print("    Volume features added:")
-        print("      - Previous_Volume, Volume_Change")
+        print("Volume features added:")
+        print("- Previous_Volume, Volume_Change")
 
         return df_volume
 
