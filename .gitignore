@@ -35,12 +35,19 @@ metastore_db/
 spark-warehouse/
 
 # Data files
-*.csv
-*.parquet
-*.json
 data/
-output/
+output/**
+!output/visualizations/
+!output/visualizations/*.png
+!output/visualizations/*.jpg
+!output/visualizations/*.jpeg
 *.log
+data/**/*.csv
+data/**/*.parquet
+data/**/*.json
+output/**/*.csv
+output/**/*.parquet
+output/**/*.json
 
 # IDE
 .vscode/
